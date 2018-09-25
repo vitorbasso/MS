@@ -34,7 +34,7 @@ int main(){
 
     printf("O valor minimo para um full period multplier com m = %d e de %d\n", m, minimo);
     printf("Todos os valores que sao full period multiplier:\n");
-    int i = 1, count = 0;
+    int i = 1, count = 1;
     while( x != 1){ //enquanto x nao voltar a valer 1 ( que e o valor de x0)
         if(greaterCommonDivisor(i, m - 1) == 1){
             printf("%d ", x);
