@@ -1,36 +1,17 @@
-
 /* -------------------------------------------------------------------------
- * This is an ANSI C library for random number generation.  The use of this
- * library is recommended as a replacement for the ANSI C rand() and srand()
- * functions, particularly in simulation applications where the statistical
- * 'goodness' of the random number generator is important.
+ * A Monte Carlo simulation of Galileo's three dice experiment.
  *
- * The generator used in this library is a so-called 'Lehmer random number
- * generator' which returns a pseudo-random number uniformly distributed
- * between 0.0 and 1.0.  The period is (m - 1) where m = 2,147,483,647 and
- * the smallest and largest possible values are (1 / m) and 1 - (1 / m)
- * respectively.  For more details see:
- *
- *       "Random Number Generators: Good Ones Are Hard To Find"
- *                   Steve Park and Keith Miller
- *              Communications of the ACM, October 1988
- *
- * Note that as of 7-11-90 the multiplier used in this library has changed
- * from the previous "minimal standard" 16807 to a new value of 48271.  To
- * use this library in its old (16807) form change the constants MULTIPLIER
- * and CHECK as indicated in the comments.
- *
- * Name              : rng.c  (Random Number Generation - Single Stream)
- * Authors           : Steve Park & Dave Geyer
+ * Name              : galileo.c
+ * Author            : Steve Park & Dave Geyer
  * Language          : ANSI C
- * Latest Revision   : 09-11-98
+ * Latest Revision   : 9-11-98
  * -------------------------------------------------------------------------
  */
 
 #include <stdio.h>
 #include <time.h>
-#include "rng.h"
 
+#define N 1000L                          /* number of replications */
 #define MODULUS    2147483647L /* DON'T CHANGE THIS VALUE                   */
 #define MULTIPLIER 48271L      /* use 16807 for the "minimal standard"      */
 #define CHECK      399268537L  /* use 1043616065 for the "minimal standard" */
@@ -38,8 +19,7 @@
 
 static long seed = DEFAULT;    /* seed is the state of the generator        */
 
-
- double Random(void)
+double Random(void)
 /* ---------------------------------------------------------------------
  * Random is a Lehmer generator that returns a pseudo-random real number
  * uniformly distributed between 0.0 and 1.0.  The period is (m - 1)
@@ -60,6 +40,7 @@ static long seed = DEFAULT;    /* seed is the state of the generator        */
   return ((double) seed / MODULUS);
 }
 
+   void PutSeed(long x)
 /* -------------------------------------------------------------------
  * Use this (optional) procedure to initialize or reset the state of
  * the random number generator according to the following conventions:
@@ -68,7 +49,6 @@ static long seed = DEFAULT;    /* seed is the state of the generator        */
  *    if x = 0 then the initial seed is to be supplied interactively
  * --------------------------------------------------------------------
  */
-void PutSeed(long x)
 {
   char ok = 0;
 
@@ -77,8 +57,7 @@ void PutSeed(long x)
   if (x < 0L)
     x = ((unsigned long) time((time_t *) NULL)) % MODULUS;
   if (x == 0L)
-    while (!ok)
-    {
+    while (!ok) {
       printf("\nEnter a positive integer seed (9 digits or less) >> ");
       scanf("%ld", &x);
       ok = (0L < x) && (x < MODULUS);
@@ -88,23 +67,22 @@ void PutSeed(long x)
   seed = x;
 }
 
-
-
+   void GetSeed(long *x)
 /* --------------------------------------------------------------------
  * Use this (optional) procedure to get the current state of the random
  * number generator.
  * --------------------------------------------------------------------
  */
-void GetSeed(long *x)
 {
   *x = seed;
 }
 
+
+   void TestRandom(void)
 /* -------------------------------------------------------------------
  * Use this (optional) procedure to test for a correct implementation.
  * -------------------------------------------------------------------
  */
-void TestRandom(void)
 {
   long   i;
   long   x;
@@ -120,3 +98,42 @@ void TestRandom(void)
     printf("\n\a ERROR - the implementation of Random is not correct\n");
 }
 
+   long Equilikely(long a, long b)
+/* ------------------------------------------------
+ * generate an Equilikely random variate, use a < b
+ * ------------------------------------------------
+ */
+{
+  return (a + (long) ((b - a + 1) * Random()));
+}
+
+
+  int main(void)
+{
+  long   i;                               /* replication index      */
+  long   x;                               /* sum of three dice      */
+  long   count[19] = {0};                 /* histogram              */
+  double p[19]     = {0.0};               /* probability estimates  */
+
+  long n, max = 1000, increment = 20, theOne = 9;
+  long j = 20;
+  PutSeed(0);
+
+  for(n = j; n <= max; n += increment){
+    for (i = 0; i < n; i++) {
+        x = Equilikely(1, 6) + Equilikely(1, 6) + Equilikely(1, 6);
+        if(x == theOne)
+            count[theOne]++;
+    }
+    p[theOne] = (double) count[theOne] / n;
+    printf("\nbased on %ld replications ", n);
+    printf("the estimated probabilities for p[%2ld] is %5.3f\n",theOne, p[theOne]);
+    p[theOne] = 0.0;
+    count[theOne] = 0;
+  }
+
+
+
+
+  return (0);
+}

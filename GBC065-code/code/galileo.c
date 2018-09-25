@@ -1,11 +1,11 @@
-/* ------------------------------------------------------------------------- 
- * A Monte Carlo simulation of Galileo's three dice experiment. 
- * 
- * Name              : galileo.c 
- * Author            : Steve Park & Dave Geyer 
+/* -------------------------------------------------------------------------
+ * A Monte Carlo simulation of Galileo's three dice experiment.
+ *
+ * Name              : galileo.c
+ * Author            : Steve Park & Dave Geyer
  * Language          : ANSI C
  * Latest Revision   : 9-11-98
- * ------------------------------------------------------------------------- 
+ * -------------------------------------------------------------------------
  */
 
 #include <stdio.h>
@@ -14,9 +14,9 @@
 #define N 10000L                          /* number of replications */
 
 
-   long Equilikely(long a, long b)        
+   long Equilikely(long a, long b)
 /* ------------------------------------------------
- * generate an Equilikely random variate, use a < b 
+ * generate an Equilikely random variate, use a < b
  * ------------------------------------------------
  */
 {
