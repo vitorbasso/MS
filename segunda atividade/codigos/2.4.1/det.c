@@ -16,7 +16,7 @@
 #include <time.h>
 
 
-#define N 2000L                     /* number of replications        */
+#define N 238609294L                     /* number of replications        */
 
 #define MODULUS    2147483647L /* DON'T CHANGE THIS VALUE                   */
 #define MULTIPLIER 48271L      /* use 16807 for the "minimal standard"      */
