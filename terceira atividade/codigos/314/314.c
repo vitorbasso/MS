@@ -16,7 +16,7 @@
 #include <math.h>
 
 
-#define LAST         10000L                   /* number of jobs processed */
+#define LAST         80000L                   /* number of jobs processed */
 #define START        0.0                      /* initial time             */
 
 
@@ -177,8 +177,10 @@ static long seed = DEFAULT;    /* seed is the state of the generator        */
     double interarrival;                        /*   interarrival times */
   } sum = {0.0, 0.0, 0.0};
     int told = 0;
-  int seed = 54321;
+  int seed = 2121212;
   PutSeed(seed);
+  FILE *fp;
+  fp = fopen("resultado.txt", "w+");
 
   while (index < LAST) {
     index++;
@@ -197,8 +199,12 @@ static long seed = DEFAULT;    /* seed is the state of the generator        */
           printf("\nIt took %ld jobs using the seed %d to transition to a steady-state statistic\n", index, seed, sum.service / index);
           told = 1;
     }
+    if(index % 20 == 0){
+        fprintf(fp, "%lf\n", sum.wait / index);
+    }
   }
   sum.interarrival = arrival - START;
+  fclose(fp);
 
 
   printf("\nfor %ld jobs using the seed %d\n", index, seed);
