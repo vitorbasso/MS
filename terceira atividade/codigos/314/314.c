@@ -16,7 +16,7 @@
 #include <math.h>
 
 
-#define LAST         80000L                   /* number of jobs processed */
+#define LAST         10000L                   /* number of jobs processed */
 #define START        0.0                      /* initial time             */
 
 
@@ -195,10 +195,6 @@ static long seed = DEFAULT;    /* seed is the state of the generator        */
     sum.delay   += delay;
     sum.wait    += wait;
     sum.service += service;
-    if((sum.service / index) > 1.799 && (sum.service / index) < 1.801 && told == 0){
-          printf("\nIt took %ld jobs using the seed %d to transition to a steady-state statistic\n", index, seed, sum.service / index);
-          told = 1;
-    }
     if(index % 20 == 0){
         fprintf(fp, "%lf\n", sum.wait / index);
     }
