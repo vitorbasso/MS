@@ -1,5 +1,5 @@
 /* ------------------------------------------------------------------------
- * This program illustrates an array-based algorithm for tallying a 
+ * This program illustrates an array-based algorithm for tallying a
  * continuous-data histogram for data read from standard input (stdin).
  * Like program uvs, a compiled version of this program supports file
  * redirection.
@@ -8,16 +8,16 @@
  * For other datafiles these parameters must be adjusted -- you might
  * want to process the datafile with program uvs first to get a handle on
  * appropriate values for these three parameters.
- * 
+ *
  * Name              : cdh.c  (Continuous Data Histogram)
  * Authors           : Steve Park & Dave Geyer
  * Language          : ANSI C
  * Latest Revision   : 12-27-95
- * ------------------------------------------------------------------------ 
+ * ------------------------------------------------------------------------
  */
 
 #include <stdio.h>
-#include <math.h> 
+#include <math.h>
 
 #define  MIN     0.0
 #define  MAX     3.0
@@ -33,7 +33,7 @@
   long   index    = 0;                           /* sample size         */
   long   count[K] = {0.0};                       /* bin count           */
   double midpoint[K];                            /* bin midpoint        */
-  struct {                                       
+  struct {
     long lo;
     long hi;
   } outliers      = {0, 0};
@@ -42,7 +42,7 @@
   double mean;
   double stdev;
 
-  for (j = 0; j < K; j++) 
+  for (j = 0; j < K; j++)
     midpoint[j] = MIN + (j + 0.5) * DELTA;
 
   while (!feof(stdin)) {                         /* tally the data */
@@ -68,7 +68,7 @@
 	FILE* fp = fopen("hist.dat", "w");
   printf("  bin     midpoint     count   proportion    density\n\n");
 	int i=0;
-  for (j = 0; j < K; j++) { 
+  for (j = 0; j < K; j++) {
     printf("%5ld", j + 1);                                    /* bin        */
     printf("%12.3f", midpoint[j]);                            /* midpoint   */
     printf("%10ld", count[j]);                                /* count      */

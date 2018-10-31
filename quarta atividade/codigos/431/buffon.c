@@ -128,7 +128,7 @@ static long seed = DEFAULT;    /* seed is the state of the generator        */
   double u, v;                             /* endpoints             */
   double theta;                            /* angle                 */
   long   seed;
-  float const R = 2.0;
+  float const R = 1.0;
 
   PutSeed(1234);                 /* any negative integer will do      */
 	FILE* fp = fopen("data.dat", "w");
